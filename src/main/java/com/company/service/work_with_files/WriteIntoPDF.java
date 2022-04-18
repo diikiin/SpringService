@@ -7,6 +7,8 @@ import com.itextpdf.text.pdf.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -20,7 +22,7 @@ public class WriteIntoPDF {
 
         String phrase = String.format("This sick leave is issued to a citizen %s %s identification number %d",
                 patient.getFirstName(), patient.getLastName(), patient.getId());
-        table.addCell(setCell(phrase, 2));
+        table.addCell(setCellColspan2(phrase));
 
         table.addCell(setCell("Reason for contacting a medical organization"));
         table.addCell(setCellAlignRight(patient.getComplaint()));
@@ -39,6 +41,7 @@ public class WriteIntoPDF {
         document.add(table);
         document.close();
 
+        Files.createDirectories(Paths.get(".\\files"));
         return new File(".\\files\\" + patient.getId() + ".pdf");
     }
 
@@ -60,10 +63,10 @@ public class WriteIntoPDF {
         return cell;
     }
 
-    private static PdfPCell setCell(String phrase, int colSpan) {
+    private static PdfPCell setCellColspan2(String phrase) {
         PdfPCell cell = new PdfPCell();
         cell.setPhrase(new Phrase(phrase));
-        cell.setColspan(colSpan);
+        cell.setColspan(2);
         cell.setPaddingBottom(20);
         cell.setBorder(Rectangle.NO_BORDER);
         return cell;

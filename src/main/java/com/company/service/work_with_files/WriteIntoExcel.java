@@ -7,6 +7,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,7 @@ public class WriteIntoExcel {
             sheet.autoSizeColumn(i);
         }
 
+        Files.createDirectories(Paths.get(".\\files"));
         workbook.write(new FileOutputStream(".\\files\\Patients list.xlsx"));
         workbook.close();
         return new File(".\\files\\Patients list.xlsx");
